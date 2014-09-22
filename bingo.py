@@ -32,6 +32,7 @@ from reportlab.platypus import (
 from reportlab.lib.colors import lightgrey, black
 from reportlab.lib.units import cm
 
+
 def list_of_columns(
     numbers=range(1, 76),
     num_of_columns=5,
@@ -48,8 +49,10 @@ def list_of_columns(
         for i in range(num_of_columns)
     ]
 
+
 def list_of_rows(list_of_columns):
     return [list(row) for row in zip(*list_of_columns)]
+
 
 def insert_free_spaces(numbers, coords=[(2, 2)]):
     return [
@@ -60,8 +63,10 @@ def insert_free_spaces(numbers, coords=[(2, 2)]):
         for y in range(len(numbers))
     ]
 
+
 def prepend_title_row(numbers):
     return [['B', 'I', 'N', 'G', 'O']] + numbers
+
 
 def card_data():
     return prepend_title_row(
@@ -71,6 +76,7 @@ def card_data():
             )
         )
     )
+
 
 def stylesheet():
     return {
@@ -90,6 +96,7 @@ def stylesheet():
         ),
     }
 
+
 def pages(number_of_pages, stylesheet):
     pages = zip(
         [
@@ -106,6 +113,7 @@ def pages(number_of_pages, stylesheet):
         ] * number_of_pages
     )
     return [e for p in pages for e in p]
+
 
 def build_pdf(filename, pages):
     doc = BaseDocTemplate(filename)
