@@ -134,4 +134,8 @@ def build_pdf(filename, pages):
     )
     doc.build(pages)
 
+fname = "cell_entries"
+with open(fname) as f:
+    cell_entries = f.readlines()
+    
 build_pdf('1000-bingo-cards.pdf', pages(1000, stylesheet()))
