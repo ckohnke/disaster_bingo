@@ -27,25 +27,33 @@ from reportlab.platypus import (
     Frame,
     Table,
     TableStyle,
-    PageBreak
+    PageBreak,
+    Paragraph
 )
 from reportlab.lib.colors import lightgrey, black
 from reportlab.lib.units import cm
+from reportlab.lib.styles import getSampleStyleSheet
 
 
-def list_of_columns(
-    numbers=range(1, 76),
+def list_of_columns(entries,
     num_of_columns=5,
     num_of_rows=5
 ):
+    numbers = range(1,len(entries));
     slice_length = len(numbers) // num_of_columns
     return [
-        sorted(
+        #sorted(
             random.sample(
-                numbers[i * slice_length: (i + 1) * slice_length],
+                entries[i * slice_length: (i + 1) * slice_length],
                 num_of_rows
             )
-        )
+        #)
+        #(
+        #    random.sample(
+        #        entries[i * num_of_rows: (i + 1) * num_of_rows],
+        #        num_of_rows
+        #    )
+        #)
         for i in range(num_of_columns)
     ]
 
@@ -68,12 +76,12 @@ def prepend_title_row(numbers):
     return [['B', 'I', 'N', 'G', 'O']] + numbers
 
 
-def card_data():
+def card_data(entries):
     return prepend_title_row(
-        insert_free_spaces(
+        #insert_free_spaces(
             list_of_rows(
-                list_of_columns()
-            )
+                list_of_columns(entries)
+        #    )
         )
     )
 
@@ -82,8 +90,9 @@ def stylesheet():
     return {
         'bingo': TableStyle(
             [
-                ('FONTSIZE', (0, 0), (-1, -1), 28),
-                ('LEADING', (0, 0), (-1, -1), 28),
+                ('FONTSIZE', (0, 0), (-1, 0), 28),
+                ('FONTSIZE', (0, 1), (-1, -1), 18),
+                ('LEADING', (0, 0), (-1, -1), 11),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
                 ('INNERGRID', (0, 0), (-1, -1), 0.25, black),
                 ('BOX', (0, 0), (-1, 0), 2.0, black),
@@ -97,13 +106,13 @@ def stylesheet():
     }
 
 
-def pages(number_of_pages, stylesheet):
+def pages(entries, number_of_pages, stylesheet):
     pages = zip(
         [
             Table(
-                card_data(),
-                5 * [2.5 * cm],  # column widths
-                6 * [2.5 * cm],  # row heights
+                card_data(entries),
+                5 * [3.5 * cm],  # column widths
+                6 * [3.5 * cm],  # row heights
                 style=stylesheet['bingo']
             )
             for i in range(number_of_pages)
@@ -134,8 +143,13 @@ def build_pdf(filename, pages):
     )
     doc.build(pages)
 
+styles = getSampleStyleSheet()
 fname = "cell_entries"
 with open(fname) as f:
     cell_entries = f.readlines()
-    
-build_pdf('1000-bingo-cards.pdf', pages(1000, stylesheet()))
+for s in range(0,len(cell_entries)):
+    cell_entries[s] = Paragraph(cell_entries[s].rstrip(), styles['Normal'])
+
+#print(cell_entries)
+
+build_pdf('1000-bingo-cards.pdf', pages(cell_entries, 1000, stylesheet()))
