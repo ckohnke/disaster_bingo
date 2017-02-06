@@ -91,7 +91,7 @@ def stylesheet():
         'bingo': TableStyle(
             [
                 ('FONTSIZE', (0, 0), (-1, 0), 28),
-                ('FONTSIZE', (0, 1), (-1, -1), 18),
+                ('FONTSIZE', (0, 1), (-1, -1), 11),
                 ('LEADING', (0, 0), (-1, -1), 11),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
                 ('INNERGRID', (0, 0), (-1, -1), 0.25, black),
