@@ -152,4 +152,4 @@ for s in range(0,len(cell_entries)):
 
 #print(cell_entries)
 
-build_pdf('1000-bingo-cards.pdf', pages(cell_entries, 1000, stylesheet()))
+build_pdf('1000_disaster_bingo_cards.pdf', pages(cell_entries, 1000, stylesheet()))
